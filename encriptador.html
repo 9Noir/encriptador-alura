@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <style>
+        body {
+            background: #E9ECF8;
+            font-family: Century Gothic;
+            /* min-height: 100vh; */
+        }
+
+        nav {
+            margin: 5%;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 0;
+            gap: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            flex-wrap: wrap;
+        }
+
+        .ouput {
+            border-radius: 5%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 5%;
+        }
+
+        .input {}
+
+
+        .text-input::placeholder {
+            color: #0A3871;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 150%;
+        }
+
+        .text-input {
+            width: 100%;
+            height: 500px;
+            background-color: transparent;
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+            resize: none;
+
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 150%;
+            color: #0A3871;
+        }
+
+        .text-output {
+            width: 100%;
+            height: 500px;
+            padding: 5%;
+            background-color: transparent;
+            box-sizing: border-box;
+            resize: none;
+
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 150%;
+            color: #495057;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+
+        .encrypt-btn {
+            color: #fff;
+            background-color: #072B61;
+        }
+
+        button {
+            font-size: large;
+            font-weight: bold;
+            width: 300px;
+            height: 60px;
+            border-radius: 20px;
+            background-color: #E5E5E5
+        }
+
+        button:hover {
+            color: white;
+            background-color: #0A3871;
+            transition: 0.5s;
+        }
+
+        @media screen and (max-width:480px) {
+            #input {
+                width: auto;
+            }
+        }
+    </style> -->
+    <title>Encriptador</title>
+</head>
+
+<body>
+    <header>
+        <nav class="flex">
+            <img src="assets/img/Vector.png" alt="">
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="input flex">
+                <!-- <button class="delete-btn" onclick="textDelete()" hidden>Eliminar</button> -->
+                <textarea class="text-input" oninput="deleteBtnIsHidden(false,this.value)"
+                    placeholder="Ingrese su texto aquí"></textarea>
+                <p>Solo letras minúsculas y sin acentos</p>
+                <div class="flex btn-container">
+                    <button class="encrypt-btn btn">Encriptar</button>
+                    <button class="decrypt-btn btn">Desencriptar</button>
+                </div>
+            </div>
+    
+            <div class="output flex">
+                <!-- <img src="assets/img/Muñeco.png" id="img-output"> -->
+                <textarea class="text-output shadow" disabled>Ningún mensaje fue encontrado</textarea>
+                <button class="copy-btn" onclick="textCopy()" hidden>Copiar</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+
+        var textOutput = document.querySelector('.text-output');
+        const encryptButton = document.querySelector('.encrypt-btn');
+        const decryptButton = document.querySelector('.decrypt-btn');
+        const wordsToEncrypt = ['e', 'i', 'a', 'o', 'u'];
+        const wordsToDecrypt = ['enter', 'imes', 'ai', 'ober', 'ufat'];
+
+        encryptButton.addEventListener('click', encrypt.bind(event, wordsToEncrypt, wordsToDecrypt));
+        decryptButton.addEventListener('click', encrypt.bind(event, wordsToDecrypt, wordsToEncrypt));
+
+        // //DE ESTA FORMA NO FUNCIONA
+        // btn1.addEventListener('click',encrypt(param1, param2));
+        // btn2.addEventListener('click',encrypt(param2, param1));
+
+        // //ALTERNATIVA 1
+        // btn1.addEventListener('click', encrypt.bind(event, param1, param2));
+        // btn2.addEventListener('click', encrypt.bind(event, param2, param1));
+
+        // //ALTERNATIVA 2
+        // btn1.addEventListener('click', () => {
+        //     encrypt(param1, param2)
+        // });
+        // btn2.addEventListener('click', () => {
+        //     encrypt(param2, param1)
+        // });
+
+        function encrypt(inputWords, OutputWords) {
+            var textInput = document.querySelector('.text-input').value;
+            if (isValid(textInput)) {
+                visibilityChange(true);
+                inputWords.forEach(function (e, i) {
+                    textInput = textInput.replaceAll(inputWords[i], OutputWords[i]);
+                });
+                textOutput.textContent = textInput;
+            } else {
+                textOutput.textContent = "ERROR!!!"
+            }
+        }
+
+        function isValid(text) {
+            return !/[^a-z]/.test(text);
+        }
+
+        function textCopy() {
+            var copyData = document.querySelector(".text-output");
+            copyData.select();
+            navigator.clipboard.writeText(copyData.value);
+        }
+
+        function textDelete() {
+            document.querySelector('.text-input').value = "";
+            visibilityChange(false);
+            deleteBtnIsHidden(true);
+        }
+
+        function deleteBtnIsHidden(isHidden, text) {
+            document.querySelector('.delete-btn').hidden = (isHidden || text == '');
+        }
+
+        function visibilityChange(isHidden) {
+            document.querySelector('.copy-btn').hidden = !isHidden;
+            document.querySelector('.text-output').hidden = !isHidden;
+            document.querySelector('#img-output').hidden = isHidden;
+        }
+    </script>
+</body>
+
+</html>

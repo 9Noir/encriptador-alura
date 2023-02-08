@@ -1,0 +1,76 @@
+:root {
+    --pad: 20px
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: var(--pad);
+    background-color: #E5E5E5;
+}
+
+.flex {
+    display: flex;
+    gap: 20px;
+}
+
+.col {
+    flex-direction: column;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.text-input {
+    all: unset;
+    flex-grow: 1;
+    min-height: 400px;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.text-input::placeholder {
+    display: flex;
+    text-align: center;
+    font-size: 32px;
+    color: #0A3871;
+    position: absolute;
+    top: 50%;
+}
+
+.text-output {
+    all: unset;
+    flex-grow: 1;
+    min-height: 400px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.btn-container {
+    flex-direction: column;
+}
+
+.btn {
+    width: 100%;
+    min-height: 60px;
+    border-radius: 20px;
+}
+
+.encrypt-btn {
+    color: white;
+    background-color: #0A3871;
+}
+
+.output {}
+
+.shadow {
+    box-shadow: 0px 24px 32px -8px rgba(0, 0, 0, 0.08);
+}
